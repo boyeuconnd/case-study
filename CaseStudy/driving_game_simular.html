@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mô phỏng game lái xe</title>
+    <script src="Class_init.js"></script>
+    <style>
+        button{
+            border: 1px solid green;
+            background-color: white;
+        }
+        canvas{
+            background-image: url("img/background.jpg");
+        }
+    </style>
+
+
+</head>
+<body onkeydown="keyPressHandler(event)" onkeyup="keyUp(event)">
+    <canvas id="myCanvas" height="600" width="1500" ></canvas><br>
+    <button id = btn onclick="gameStart()" title="PLAY GAME">
+        <img id="img" height="50px" src="img/play.png" alt="Start">
+    </button>
+    <button title="RESET GAME" onclick="resetGame()" >
+        <img height="50px" src="img/reset.png" alt="Reset"/>
+    </button>
+    <button onclick="bg_music.play_pause()" title="BACKGROUND MUSIC">
+        <img height="50px" src="img/music.png" alt="Music"/>
+    </button>
+    <button title="GAME SOUND" id="game_sound" onclick="muteGameSound()">
+        <img height="50px" src="img/audio.png" alt="Sound"/>
+    </button>
+    <button title="SHOW TUTORIAL" onclick="showTutorial()"/>
+        <img height="50px" src="img/tutorial.png" alt="Tutorial">
+    </button>
+    <div id="my_bg_music"></div>
+    <div id="mygamesound"></div>
+    <script src="function.js"></script>
+
+    <script>
+    // let bg_music = new Sound("sound/bgmusic.mp3",true,"my_bg_music");
+    // let start_sound = new Sound("sound/car_start.mp3",false,"mygamesound");
+    // let get_point = new Sound("sound/get_point.mp3",false,"mygamesound");
+    // let crash = new Sound("sound/crash.mp3",false,"mygamesound");
+    // bg_music.setMusic();
+    //
+    // function keyPressHandler(event) {
+    //     const KEY_LEFT = 37;
+    //     const KEY_RIGHT = 39;
+    //     const KEY_UP = 38;
+    //     const KEY_DOWN = 40;
+    //     const KEY_CTRL = 17;
+    //     switch (event.keyCode) {
+    //         case KEY_LEFT:
+    //             move("Left");
+    //             break;
+    //         case KEY_RIGHT:
+    //             move("Right");
+    //             break;
+    //         case KEY_UP:
+    //             move("Up");
+    //             break;
+    //         case KEY_DOWN:
+    //             move("Down");
+    //             break;
+    //         case KEY_CTRL:
+    //             speedBoost();
+    //             break;
+    //     }
+    // }
+    // function keyUp(event){
+    //     if(event.keyCode === 17){
+    //         myCar.speed = 10;
+    //     }
+    // }
+    //
+    // let canvas = document.getElementById("myCanvas");
+    // let ctx = canvas.getContext("2d");
+    // var carImgUp = new Image();
+    // carImgUp.src = "img/carUp.png";
+    // var carImgDown = new Image();
+    // carImgDown.src = "img/carDown.png";
+    // var carImgLeft = new Image();
+    // carImgLeft.src = "img/carLeft.png";
+    // var carImgRight = new Image();
+    // carImgRight.src = "img/carRight.png";
+    // var rockImg = new Image();
+    // rockImg.src="img/rock.png";
+    // var coinImg = new Image();
+    // coinImg.src="img/coin.png";
+    // const InitX = canvas.clientWidth/2;
+    // const InitY = canvas.clientHeight -100;
+    // var myCar = new MainCar(InitX,InitY,);
+    // let score;
+    // let objects = [];
+    // function createObjects() {
+    //     for (i=0;i<1;){
+    //         var x = Math.random()*canvas.clientWidth;
+    //         var y = Math.random()*canvas.clientHeight;
+    //         if(Math.abs(x-myCar.x)>100||y-myCar.y>100){  //Thêm điều kiện để tạo Object không trùng với vị trí xe
+    //             if(Math.random()>0.5){
+    //                 objects.push(new Object(x,y,true));
+    //             }else {
+    //                 objects.push(new Object(x,y,false));
+    //             }
+    //             i++;
+    //         }
+    //     }
+    // }
+    // function deleteObjects() {
+    //     if(objects.length>8){
+    //         objects.shift();
+    //     }
+    //
+    // }
+    // function drawObjects() {
+    //     for (j=0;j<objects.length;j++){
+    //         objects[j].draw();
+    //     }
+    // }
+    // function move(direct) { //Tái tạo chuyển động của vật thể
+    //     clearCanvas();
+    //     showScore();
+    //     drawObjects();
+    //     switch (direct) {
+    //         case "Up":
+    //             if(myCar.y>0){ //Giới hạn vật thể di chuyển chiều trên
+    //                 myCar.moveUp();
+    //                 myCar.draw("Up");
+    //                 checkColision("Y");
+    //             }else{
+    //                 myCar.draw("Up");
+    //             }
+    //             break;
+    //         case "Down":
+    //             if(myCar.y<600){ //Giới hạn vật thể di chuyển chiều dưới
+    //                 myCar.moveDown();
+    //                 myCar.draw("Down");
+    //                 checkColision("Y");
+    //             }else {
+    //                 myCar.draw("Down");
+    //             }
+    //             break;
+    //         case "Left":
+    //             if(myCar.x>0){
+    //                 myCar.moveLeft();
+    //                 myCar.draw("Left");
+    //                 checkColision("X");
+    //             }else {
+    //                 myCar.draw("Left");
+    //             }
+    //             break;
+    //         case "Right":
+    //             if(myCar.x<1500){
+    //                 myCar.moveRight();
+    //                 myCar.draw("Right");
+    //                 checkColision("X");
+    //             }else {
+    //                 myCar.draw("Right");
+    //             }
+    //             break;
+    //     }
+    //
+    // }
+    // function speedBoost() { //Function boost speed của xe
+    //     myCar.speedBoost();
+    // }
+    // function showScore() { //function show điểm
+    //     ctx.font = "20px Verdana";
+    //     var gradient = ctx.createLinearGradient(0, 0, canvas.width, 0);
+    //     gradient.addColorStop("0", "magenta");
+    //     gradient.addColorStop("0.5", "blue");
+    //     gradient.addColorStop("1.0", "red");
+    //     ctx.fillStyle = gradient;
+    //     ctx.fillText("SCORE: "+score, 1350, 30);
+    // }
+    // function checkColision(direction) { //Kiểm tra chạm vào vật thể
+    //     for(i=0;i<objects.length;i++){
+    //         var checkX = Math.abs(myCar.x-objects[i].getCenterX());
+    //         var checkY = Math.abs(myCar.y-objects[i].getCenterY());
+    //         switch (direction) {
+    //             case "X":
+    //                 if(checkY<75){
+    //                     if(checkX<125){
+    //                         if(objects[i].type === true){
+    //                             score++;
+    //                             get_point.play_sound();
+    //                             objects.splice(i,1);
+    //                             drawObjects();
+    //                             showScore();
+    //                         }else {
+    //                             crash.play_sound();
+    //                             gameOver();
+    //                         }
+    //                     };
+    //                 };
+    //                 break;
+    //             case "Y":
+    //                 if(checkX<75){
+    //                     if(checkY<125){
+    //                         if(objects[i].type === true){
+    //                             score++;
+    //                             get_point.play_sound();
+    //                             objects.splice(i,1);
+    //                             drawObjects();
+    //                             showScore();
+    //                         }else {
+    //                             crash.play_sound();
+    //                             gameOver();
+    //                         }
+    //                     };
+    //                 };
+    //                 break;
+    //         }
+    //     }
+    //
+    // }
+    // let interval;
+    // function gameStart() {
+    //     if(objects.length<1){
+    //         objects.respawn = 3000;
+    //         score = 0;
+    //         showScore();
+    //         start_sound.play_sound();
+    //         myCar.draw("Up");
+    //         interval = setInterval(
+    //             function (){
+    //                 createObjects();
+    //                 deleteObjects();
+    //                 drawObjects();
+    //             },objects.respawn
+    //         )
+    //     }
+    // }
+    // function gameOver() {
+    //     clearCanvas();
+    //     ctx.font = "60px Arial";
+    //     ctx.fillText("GAME OVER",10,70);
+    //     ctx.font = "30px Arial";
+    //     ctx.fillText("YOUR SCORE: "+score,20,150);
+    //     clearInterval(interval);
+    // }
+    // function resetGame() {
+    //     clearCanvas();
+    //     objects.respawn = 3000;
+    //     score = 0;
+    //     showScore();
+    //     objects=[];
+    //     myCar.x = InitX;
+    //     myCar.y = InitY;
+    //     clearInterval(interval);
+    // }
+    //
+    // function clearCanvas() {
+    //     ctx.clearRect(0,0,canvas.clientWidth,canvas.clientHeight);
+    // }
+    // function showTutorial() {
+    //     var ruleGame = "Luật chơi:\n\Tránh tất cả đá ở trên đường và thu nhặt những đồng tiền vàng để tăng điểm"
+    //     var tutorialText = "-Nhấn play để bắt đầu chơi.\n\ -Nhấn reset để chơi lại.\n\ -Giữ Control để tăng tốc độ.\n\ -Tùy chọn bật tắt sound và background music.";
+    //     alert(ruleGame+"\n\ "+ tutorialText);
+    // }
+</script>
+
+
+</body>
+</html>
