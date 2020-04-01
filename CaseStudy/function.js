@@ -65,9 +65,9 @@ let game_level = new Level(1,2,5,4);
 //==================Khai báo hàm quy định việc tạo Object============
 function createObjects() {
     for (let i=0;i<1;){
-        let x = Math.random()*canvas.clientWidth;
-        let y = Math.random()*canvas.clientHeight;
-        if(Math.abs(x-myCar.x)>100||y-myCar.y>100){  //Thêm điều kiện để tạo Object không trùng với vị trí xe
+        let x = Math.random()*canvas.clientWidth-20;
+        let y = Math.random()*canvas.clientHeight-20;
+        if(Math.abs(x-myCar.x)>120||y-myCar.y>120){  //Thêm điều kiện để tạo Object không trùng với vị trí xe
             if(Math.random()>0.5){
                 objects.push(new Object(x,y,true));
             }else {
