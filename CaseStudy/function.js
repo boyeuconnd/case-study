@@ -61,7 +61,7 @@ let myCar = new MainCar(InitX,InitY,);
 //==================Khai báo biến điểm, mảng object, lever==========
 let score;
 let objects = [];
-let lever = new Lever(1,2,5,4);
+let game_level = new Level(1,2,5,4);
 //==================Khai báo hàm quy định việc tạo Object============
 function createObjects() {
     for (let i=0;i<1;){
@@ -79,7 +79,7 @@ function createObjects() {
 }
 //=================Hàm giới hạn số lượng Objects tối đa tại 1 thời điểm===========
 function deleteObjects() {
-    if(objects.length>lever.amountObj){
+    if(objects.length>game_level.amountObj){
         objects.shift();
     }
 }
@@ -136,12 +136,13 @@ function move(direct) { //Tái tạo chuyển động của vật thể
 
 function showScore() { //function show điểm
     ctx.font = "20px Verdana";
-    var gradient = ctx.createLinearGradient(0, 0, canvas.width, 0);
+    var gradient = ctx.createLinearGradient(0, 0, 300, 180);
     gradient.addColorStop("0", "magenta");
     gradient.addColorStop("0.5", "blue");
     gradient.addColorStop("1.0", "red");
     ctx.fillStyle = gradient;
     ctx.fillText("SCORE: "+score, 1350, 30);
+    ctx.fillText("LEVEL: "+game_level.level,1350,60);
 }
 //==================Hàm kiểm tra va chạm giữa đối tượng chính và các Object===================
 function checkColision(direction) { //Kiểm tra chạm vào vật thể
@@ -154,6 +155,7 @@ function checkColision(direction) { //Kiểm tra chạm vào vật thể
                     if(checkX<123){
                         if(objects[i].type){
                             score++;
+                            setLevel(score);
                             get_point.play_sound();
                             objects.splice(i,1);
                             drawObjects();
@@ -170,6 +172,7 @@ function checkColision(direction) { //Kiểm tra chạm vào vật thể
                     if(checkY<123){
                         if(objects[i].type){
                             score++;
+                            setLevel(score);
                             get_point.play_sound();
                             objects.splice(i,1);
                             drawObjects();
@@ -186,20 +189,63 @@ function checkColision(direction) { //Kiểm tra chạm vào vật thể
 
 }
 let interval;
+function setupInterval() {
+    interval = setInterval(
+        function (){
+            createObjects();
+            deleteObjects();
+            drawObjects();
+        },objects.respawn
+    )
+}
 function gameStart() {
     if(objects.length<1){//Set điều kiện để khi game đã bắt đầu, vô hiệu hóa nút start,
-        objects.respawn = Math.floor(lever.re_spawn*1000);
+        objects.respawn = game_level.re_spawn*1000;
         score = 0;
         showScore();
         start_sound.play_sound();
         myCar.draw("Up");
-        interval = setInterval(
-            function (){
-                createObjects();
-                deleteObjects();
-                drawObjects();
-            },objects.respawn
-        )
+        setupInterval();
+    }
+}
+//=================Hàm quản lý hệ thống level của game======================
+function setLevel(score_variable) {
+    switch (score_variable) {
+        case 5:
+            game_level.leverUp();
+            interval = clearInterval();
+            setupInterval();
+            break;
+        case 15:
+            game_level.leverUp();
+            interval = clearInterval();
+            setupInterval();
+            break;
+        case 30:
+            game_level.leverUp();
+            interval = clearInterval();
+            setupInterval();
+            break;
+        case 50:
+            game_level.leverUp();
+            interval = clearInterval();
+            setupInterval();
+            break;
+        case 75:
+            game_level.leverUp();
+            interval = clearInterval();
+            setupInterval();
+            break;
+        case 105:
+            game_level.leverUp();
+            interval = clearInterval();
+            setupInterval();
+            break;
+        case 140:
+            game_level.leverUp();
+            interval = clearInterval();
+            setupInterval();
+            break;
     }
 }
 function gameOver() {
@@ -213,10 +259,9 @@ function gameOver() {
 }
 function resetGame() {
     clearCanvas();
-    objects.respawn = 3000;
-    score = 0;
-    showScore();
+    score = -1;
     objects=[];
+    game_level = new Level(1,2,5,4);
     myCar.x = InitX;
     myCar.y = InitY;
     clearInterval(interval);

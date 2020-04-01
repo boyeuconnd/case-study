@@ -56,23 +56,26 @@ let MainCar = function (x, y, height, width) {
 
     }
 };
-let Lever = function(lever,speed_adj,re_spawn,amountObj){
-    this.lever = lever;
+let Level = function(level, speed_adj, re_spawn, amountObj){
+    this.level = level;
     this.speed_adj = speed_adj;
     this.re_spawn = re_spawn;
     this.amountObj = amountObj;
     this.leverUp = function () {
-        this.lever++;
+        this.level++;
         myCar.set_speed(this.speed_adj);
         this.re_spawn -= 0.3;
+        if(objects.respawn>1){
+            objects.respawn = this.re_spawn*1000;
+        };
         this.amountObj++;
-
     }
 };
 let Object = function (x,y,type) {
     this.x=x;
     this.y=y;
     this.type=type;
+    this.respawn;
     this.getCenterX =function () {
         return this.x + 25;
     };
