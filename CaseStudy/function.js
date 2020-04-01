@@ -188,6 +188,46 @@ function checkColision(direction) { //Kiểm tra chạm vào vật thể
     }
 
 }
+//=================Hàm quản lý hệ thống level của game======================
+function setLevel(score_variable) {
+    switch (score_variable) {
+        case 5:
+            game_level.leverUp();
+            clearInterval(interval);
+            setupInterval();
+            break;
+        case 15:
+            game_level.leverUp();
+            clearInterval(interval);
+            setupInterval();
+            break;
+        case 30:
+            game_level.leverUp();
+            clearInterval(interval);
+            setupInterval();
+            break;
+        case 50:
+            game_level.leverUp();
+            clearInterval(interval);
+            setupInterval();
+            break;
+        case 75:
+            game_level.leverUp();
+            clearInterval(interval);
+            setupInterval();
+            break;
+        case 105:
+            game_level.leverUp();
+            clearInterval(interval);
+            setupInterval();
+            break;
+        case 140:
+            game_level.leverUp();
+            clearInterval(interval);
+            setupInterval();
+            break;
+    }
+}
 let interval;
 function setupInterval() {
     interval = setInterval(
@@ -208,46 +248,7 @@ function gameStart() {
         setupInterval();
     }
 }
-//=================Hàm quản lý hệ thống level của game======================
-function setLevel(score_variable) {
-    switch (score_variable) {
-        case 5:
-            game_level.leverUp();
-            interval = clearInterval();
-            setupInterval();
-            break;
-        case 15:
-            game_level.leverUp();
-            interval = clearInterval();
-            setupInterval();
-            break;
-        case 30:
-            game_level.leverUp();
-            interval = clearInterval();
-            setupInterval();
-            break;
-        case 50:
-            game_level.leverUp();
-            interval = clearInterval();
-            setupInterval();
-            break;
-        case 75:
-            game_level.leverUp();
-            interval = clearInterval();
-            setupInterval();
-            break;
-        case 105:
-            game_level.leverUp();
-            interval = clearInterval();
-            setupInterval();
-            break;
-        case 140:
-            game_level.leverUp();
-            interval = clearInterval();
-            setupInterval();
-            break;
-    }
-}
+
 function gameOver() {
     clearCanvas();
     ctx.font = "60px Arial";
@@ -259,12 +260,13 @@ function gameOver() {
 }
 function resetGame() {
     clearCanvas();
+    clearInterval(interval);
     score = -1;
     objects=[];
     game_level = new Level(1,2,5,4);
     myCar.x = InitX;
     myCar.y = InitY;
-    clearInterval(interval);
+
 }
 //==============Hàm mute game sound================================
 function muteGameSound() {
