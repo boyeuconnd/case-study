@@ -57,6 +57,7 @@ coinImg.src="img/coin.png";
 //=================Khai báo vị trí khởi tạo của myCar===========
 const InitX = canvas.clientWidth/2;
 const InitY = canvas.clientHeight -100;
+const InitSp = 8;
 let myCar = new MainCar(InitX,InitY,);
 //==================Khai báo biến điểm, mảng object, lever==========
 let score;
@@ -226,6 +227,8 @@ function setLevel(score_variable) {
             clearInterval(interval);
             setupInterval();
             break;
+        default:
+            break;
     }
 }
 let interval;
@@ -242,6 +245,7 @@ function gameStart() {
     if(objects.length<1){//Set điều kiện để khi game đã bắt đầu, vô hiệu hóa nút start,
         objects.respawn = game_level.re_spawn*1000;
         score = 0;
+        // myCar.speed = InitSp;
         showScore();
         start_sound.play_sound();
         myCar.draw("Up");
@@ -264,8 +268,7 @@ function resetGame() {
     score = -1;
     objects=[];
     game_level = new Level(1,2,5,4);
-    myCar.x = InitX;
-    myCar.y = InitY;
+    myCar = new MainCar(InitX,InitY,);
 
 }
 //==============Hàm mute game sound================================
