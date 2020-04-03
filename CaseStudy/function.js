@@ -59,10 +59,11 @@ const InitX = canvas.clientWidth/2;
 const InitY = canvas.clientHeight -100;
 const InitSp = 8;
 let myCar = new MainCar(InitX,InitY,);
-//==================Khai báo biến điểm, mảng object, lever==========
+//==================Khai báo biến điểm, mảng object, lever, High Score==========
 let score;
 let objects = [];
 let game_level = new Level(1,2,5,4);
+localStorage.getItem("high_score");
 //==================Khai báo hàm quy định việc tạo Object============
 function createObjects() {
     for (let i=0;i<1;){
@@ -89,7 +90,8 @@ function drawObjects() {
         objects[j].draw();
     }
 }
-function move(direct) { //Tái tạo chuyển động của vật thể
+//=================Hàm chuyển động của xe ==========================
+function move(direct) {
     if(score>=0){ //Khi game over, score = -1, khi đó vô hiệu hàm move, tránh bug
         clearCanvas();
         showScore();
@@ -134,10 +136,10 @@ function move(direct) { //Tái tạo chuyển động của vật thể
         }
     }
 }
-
-function showScore() { //function show điểm
+//=================Hàm show score và level ===================================
+function showScore() {
     ctx.font = "20px Verdana";
-    var gradient = ctx.createLinearGradient(0, 0, 300, 180);
+    var gradient = ctx.createLinearGradient(0, 0, 300, 300);
     gradient.addColorStop("0", "magenta");
     gradient.addColorStop("0.5", "blue");
     gradient.addColorStop("1.0", "red");
@@ -146,7 +148,7 @@ function showScore() { //function show điểm
     ctx.fillText("LEVEL: "+game_level.level,1350,60);
 }
 //==================Hàm kiểm tra va chạm giữa đối tượng chính và các Object===================
-function checkColision(direction) { //Kiểm tra chạm vào vật thể
+function checkColision(direction) {
     for(i=0;i<objects.length;i++){
         let checkX = Math.abs(myCar.x-objects[i].getCenterX());
         let checkY = Math.abs(myCar.y-objects[i].getCenterY());
@@ -192,37 +194,37 @@ function checkColision(direction) { //Kiểm tra chạm vào vật thể
 //=================Hàm quản lý hệ thống level của game======================
 function setLevel(score_variable) {
     switch (score_variable) {
-        case 5:
+        case 5: //level 2
             game_level.leverUp();
             clearInterval(interval);
             setupInterval();
             break;
-        case 15:
+        case 15: //level 3
             game_level.leverUp();
             clearInterval(interval);
             setupInterval();
             break;
-        case 30:
+        case 30: //level 4
             game_level.leverUp();
             clearInterval(interval);
             setupInterval();
             break;
-        case 50:
+        case 50: //level 5
             game_level.leverUp();
             clearInterval(interval);
             setupInterval();
             break;
-        case 75:
+        case 75: //level 6
             game_level.leverUp();
             clearInterval(interval);
             setupInterval();
             break;
-        case 105:
+        case 105: //level 7
             game_level.leverUp();
             clearInterval(interval);
             setupInterval();
             break;
-        case 140:
+        case 140: //level 8
             game_level.leverUp();
             clearInterval(interval);
             setupInterval();
@@ -245,7 +247,6 @@ function gameStart() {
     if(objects.length<1){//Set điều kiện để khi game đã bắt đầu, vô hiệu hóa nút start,
         objects.respawn = game_level.re_spawn*1000;
         score = 0;
-        // myCar.speed = InitSp;
         showScore();
         start_sound.play_sound();
         myCar.draw("Up");
@@ -259,6 +260,7 @@ function gameOver() {
     ctx.fillText("GAME OVER",10,70);
     ctx.font = "30px Arial";
     ctx.fillText("YOUR SCORE: "+score,20,150);
+    ctx.fillText("HIGH SCORE: "+highScore(),20,190);
     clearInterval(interval);
     score = -1;
 }
@@ -291,4 +293,15 @@ function showTutorial() {
     var ruleGame = "Luật chơi:\n\Tránh tất cả đá ở trên đường và thu nhặt những đồng tiền vàng để tăng điểm"
     var tutorialText = "-Nhấn play để bắt đầu chơi.\n\ -Nhấn reset để chơi lại.\n\ -Giữ Control để tăng tốc độ.\n\ -Tùy chọn bật tắt sound và background music.";
     alert(ruleGame+"\n\ "+ tutorialText);
+}
+//=================Hàm lưu high score===========================
+function highScore() {
+    if (typeof(Storage) !== "undefined") {
+        if(score>localStorage.getItem("high_score")){
+            localStorage.setItem("high_score",score);
+        }
+        return localStorage.getItem("high_score");
+    } else {
+        alert("Sorry! No Web Storage support..");
+    }
 }
